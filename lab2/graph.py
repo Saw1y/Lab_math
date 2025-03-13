@@ -1,9 +1,13 @@
-from methods import interval, dichotomy_method, chord_method, tangent_method, mod_newton_method, combined_method, iterate_method, f
-import matplotlib.pyplot as plt
-from tkinter import Tk, Label, Button, Entry, StringVar, OptionMenu, Frame
+from methods import interval, dichotomy_method, chord_method, tangent_method, mod_newton_method, combined_method, iteration_method, f
+
+from tkinter.font import Font
+from tkinter import Tk, Frame, Label, Entry, StringVar, OptionMenu, Button, SOLID
+
+from matplotlib.pyplot import subplots
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.widgets import Cursor
-import numpy as np
+
+from numpy import linspace
 
 a, b = interval()
 eps = 0.0001
@@ -12,7 +16,7 @@ print(chord_method(a, b, eps))
 print(tangent_method(a, b, eps))
 print(mod_newton_method(a, b, eps))
 print(combined_method(a, b, eps))
-print(iterate_method(a, b, eps))
+print(iteration_method(a, b, eps))
 
 
 def solve():
@@ -21,7 +25,7 @@ def solve():
     a, b = interval()
 
     if method == "Метод итераций":
-        root = iterate_method(a, b, eps)
+        root = iteration_method(a, b, eps)
     elif method == "Метод диохотомии":
         root = dichotomy_method(a, b, eps)
     elif method == "Метод пропорциональных частей (хорд)":
@@ -35,7 +39,7 @@ def solve():
 
     result_label.config(text=f"Найденный корень: {root:.6f}")
     ax.clear()
-    x = np.linspace(-10, 10, 1000)
+    x = linspace(-10, 10, 1000)
     ax.plot(x, f(x), label="x³ - 10x + 2", color='blue')
     ax.axhline(0, color='gray', linewidth=0.5)
     ax.axvline(0, color='gray', linewidth=0.5)
@@ -43,12 +47,6 @@ def solve():
     ax.legend()
     canvas.draw()
 
-import tkinter.font as tkFont
-from tkinter import *
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from matplotlib.widgets import Cursor
 
 def solve():
     eps = float(eps_entry.get())
@@ -56,7 +54,7 @@ def solve():
     a, b = interval()
 
     if method == "Метод итераций":
-        root_value = iterate_method(a, b, eps)
+        root_value = iteration_method(a, b, eps)
     elif method == "Метод диохотомии":
         root_value = dichotomy_method(a, b, eps)
     elif method == "Метод пропорциональных частей (хорд)":
@@ -70,7 +68,7 @@ def solve():
 
     result_label.config(text=f"Найденный корень: {root_value:.8f}")
     ax.clear()
-    x = np.linspace(-10, 10, 1000)
+    x = linspace(-10, 10, 1000)
     ax.plot(x, f(x), label="x³ - 10x + 2", color='blue')
     ax.axhline(0, color='gray', linewidth=0.5)
     ax.axvline(0, color='gray', linewidth=0.5)
@@ -88,9 +86,9 @@ frame = Frame(root, bg="#f3f3f3", padx=40, pady=40)  # светло-серый �
 frame.pack(pady=20)
 
 # Установка красивого шрифта
-font_style = tkFont.Font(family="Helvetica", size=12, weight="bold")
+font_style = Font(family="Helvetica", size=12, weight="bold")
 
-fig, ax = plt.subplots(figsize=(6, 4))
+fig, ax = subplots(figsize=(6, 4))
 canvas = FigureCanvasTkAgg(fig, master=frame)
 canvas.get_tk_widget().pack()
 
@@ -114,7 +112,7 @@ Button(frame, text="Решить", command=solve, font=font_style, bg="#4CAF50",
 result_label = Label(frame, text="", bg="#f3f3f3", font=font_style)
 result_label.pack()
 
-x = np.linspace(-10, 10, 1000)
+x = linspace(-10, 10, 1000)
 ax.plot(x, f(x), label="x³ - 10x + 2", color='blue')
 ax.axhline(0, color='gray', linewidth=0.5)
 ax.axvline(0, color='gray', linewidth=0.5)
