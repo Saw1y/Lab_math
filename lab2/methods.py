@@ -1,4 +1,4 @@
-import numpy as np
+from math import cbrt
 
 
 def f(x):
@@ -58,8 +58,6 @@ def chord_method(a, b, eps):
         X = right
         x = left
     while abs(f(x)) > eps:
-        if f(X) - f(x) == 0:
-            return False
         x = x - f(x) * (X - x) / (f(X) - f(x))
 
     return x
@@ -76,10 +74,7 @@ def tangent_method(a, b, eps):
 
     x = x0
     while abs(f(x)) > eps:
-        if df(x) == 0:
-            return False
         x = x - f(x) / df(x)
-
     return x
 
 
@@ -91,8 +86,6 @@ def mod_newton_method(a, b, eps):
         x0 = left
     else:
         x0 = right
-    if df(x0) == 0:
-        return False
 
     x = x0
     while abs(f(x)) > eps:
@@ -115,11 +108,7 @@ def combined_method(a, b, eps):
     x = x0
     y = y0
     while abs(y - x) > eps:
-        if df(x) == 0:
-            return False
         x = x - f(x) / df(x)
-        if f(x) - f(y) == 0:
-            return False
         y = y - f(y) * (x - y) / (f(x) - f(y))
 
     return y
@@ -127,27 +116,23 @@ def combined_method(a, b, eps):
 
 # 2.6 - Метод итераций
 
-def iterate_method(a, b, eps):
+
+def iteration_method(a, b, eps):
     def phi(x):
-        return np.cbrt(10 * x - 2)
+        return cbrt(10 * x - 2)
 
     def alpha(x):
         return (x ** 3 + 2) / 10
 
     def phi2(x):
-        return (5 * np.cbrt(2)) / (3 * np.cbrt((5 * x - 1) ** 2))
+        return (5 * cbrt(2)) / (3 * cbrt((5 * x - 1) ** 2))
 
     left, right = a, b
-    x0 = right
-    x = x0
-
+    x = right
     if phi2(x) > 1:
         phi = alpha
-
     while True:
         x_new = phi(x)
-        if abs(x_new - x) < eps:
+        if abs(f(x_new)) < eps:
             return x_new
         x = x_new
-
-
